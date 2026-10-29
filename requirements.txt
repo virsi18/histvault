@@ -1,4 +1,5 @@
-# Zero mandatory external dependencies required (runs on pure Python standard library: sqlite3, http.server, etc.)
-# Optional enhancement for terminal styling:
-rich>=13.0.0
+# Native desktop window container (Edge WebView2 on Windows)
+pywebview>=5.0.0
 
+# Optional terminal styling
+rich>=13.0.0

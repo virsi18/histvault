@@ -197,6 +197,10 @@ def main():
     p_watch = subparsers.add_parser("watch", help="Run background daemon monitoring browser files")
     p_watch.add_argument("-i", "--interval", type=int, default=30, help="Polling interval in seconds")
 
+    # desktop
+    p_desktop = subparsers.add_parser("desktop", help="Launch native desktop application window")
+    p_desktop.add_argument("--port", type=int, default=None, help="Custom server port")
+
     # export
     p_export = subparsers.add_parser("export", help="Export history archive to file")
     p_export.add_argument("-f", "--format", choices=["json", "csv", "html", "md"], default="html", help="Export format")
@@ -208,6 +212,9 @@ def main():
 
     if args.command == "sync":
         cmd_sync(args, db)
+    elif args.command == "desktop":
+        from histvault.desktop.launcher import launch_desktop_app
+        launch_desktop_app(db_path=Path(args.db), port=args.port)
     elif args.command == "stats":
         cmd_stats(args, db)
     elif args.command == "list":
@@ -221,7 +228,7 @@ def main():
     else:
         print_banner()
         cmd_stats(args, db)
-        print("Use --help to view available commands: sync, serve, list, stats, watch, export.")
+        print("Use --help to view available commands: desktop, sync, serve, list, stats, watch, export.")
 
 
 if __name__ == "__main__":

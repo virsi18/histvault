@@ -108,33 +108,46 @@ flowchart TD
 
 ### Installation
 
-No heavy build tools or wheel packages needed. Simply clone and run:
-
 ```bash
 git clone https://github.com/virsi18/histvault.git
 cd histvault
+pip install -r requirements.txt
 pip install -e .
 ```
 
-### 1. Launch the Interactive Web Dashboard
+### 1. Launch the Native Desktop Application (iOS Interface)
 
-Start the built-in local web server:
+HistVault can run as a **native standalone desktop app** with dedicated window controls, Apple iOS design, and zero external browser tabs required:
+
+```bash
+# Via CLI command:
+histvault desktop
+
+# Or via Python launcher:
+python run_desktop.py
+
+# Or on Windows, simply double-click:
+HistVault-Desktop.bat
+```
+
+* 🖥️ **Native Window:** Embedded Edge WebView2 desktop container (1180x820 window with native close/minimize/maximize).
+* 🔍 **Instant Spotlight Search:** Instant history search across titles, URLs, and domains.
+* 🛡️ **Anti-Deletion Guarantee:** Clear filter to inspect items deleted from browser history.
+
+---
+
+### 2. Launch in Web Server Mode (Alternative)
+
+If you prefer accessing HistVault via standard web browser:
 
 ```bash
 histvault serve
 ```
-
-Then open your browser and navigate to:
-👉 **`http://127.0.0.1:8765`**
-
-* View all preserved history records.
-* Filter by **"Preserved from Deletion Only"** to inspect history cleared from the browser.
-* One-click "Sync History Now" button.
-* Instant live search, domain filters, and category badges.
+Then open: **`http://127.0.0.1:8765`**
 
 ---
 
-### 2. Command-Line Interface (CLI)
+### 3. Command-Line Interface (CLI)
 
 #### Synchronize All Browsers
 ```bash

@@ -38,6 +38,7 @@ setup(
     entry_points={
         "console_scripts": [
             "histvault=histvault.cli.main:main",
+            "histvault-desktop=histvault.desktop.main:main",
         ],
     },
     classifiers=[
