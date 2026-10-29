@@ -1,0 +1,3 @@
+# Zero mandatory external dependencies required (runs on pure Python standard library: sqlite3, http.server, etc.)
+# Optional enhancement for terminal styling:
+rich>=13.0.0

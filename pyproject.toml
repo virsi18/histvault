@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "histvault"
+version = "1.0.0"
+description = "Automated Browser History Preservation Vault & Anti-Deletion Archive"
+readme = "README.md"
+authors = [{ name = "HistVault Open Source Project Contributors", email = "maintainers@histvault.org" }]
+license = { text = "Apache-2.0" }
+requires-python = ">=3.9"
+dependencies = []
+
+[project.scripts]
+histvault = "histvault.cli.main:main"

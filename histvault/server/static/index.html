@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HistVault - Browser History Vault & Anti-Deletion Archive</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-left">
+            <div class="logo-box">
+                <span class="logo-icon">🛡️</span>
+                <span class="logo-text">HistVault</span>
+            </div>
+            <span class="tagline">Anti-Deletion Browser History Archive</span>
+        </div>
+        <div class="header-right">
+            <button id="btn-sync" class="btn btn-primary">
+                <span id="sync-icon">🔄</span> Sync History Now
+            </button>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle">📥 Export ▾</button>
+                <div class="dropdown-menu">
+                    <a href="/api/export?format=json" target="_blank">Export as JSON</a>
+                    <a href="/api/export?format=csv" target="_blank">Export as CSV (Excel)</a>
+                    <a href="/api/export?format=html" target="_blank">Export as Standalone HTML</a>
+                    <a href="/api/export?format=md" target="_blank">Export as Markdown</a>
+                    <hr>
+                    <a href="/api/export?format=json&deleted_only=true" target="_blank">Export Deleted Only (JSON)</a>
+                    <a href="/api/export?format=csv&deleted_only=true" target="_blank">Export Deleted Only (CSV)</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Stat Cards -->
+        <section class="stats-grid">
+            <div class="stat-card" id="card-total">
+                <div class="stat-label">Total Preserved Records</div>
+                <div class="stat-value" id="stat-total">0</div>
+                <div class="stat-sub">Permanently stored in Vault</div>
+            </div>
+            <div class="stat-card stat-card-deleted" id="card-deleted">
+                <div class="stat-label">Deleted in Browser (Preserved)</div>
+                <div class="stat-value text-danger" id="stat-deleted">0</div>
+                <div class="stat-sub">Protected from browser purge</div>
+            </div>
+            <div class="stat-card" id="card-active">
+                <div class="stat-label">Active in Browser</div>
+                <div class="stat-value text-success" id="stat-active">0</div>
+                <div class="stat-sub">Currently present in history file</div>
+            </div>
+            <div class="stat-card" id="card-visits">
+                <div class="stat-label">Total Recorded Visits</div>
+                <div class="stat-value text-cyan" id="stat-visits">0</div>
+                <div class="stat-sub" id="stat-domains">across 0 domains</div>
+            </div>
+        </section>
+
+        <!-- Filters & Controls -->
+        <section class="controls-panel">
+            <div class="search-bar-row">
+                <div class="search-input-wrap">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="Search by title, URL, domain, or notes..." autocomplete="off">
+                </div>
+                <select id="browser-filter" class="form-select">
+                    <option value="all">All Browsers</option>
+                    <option value="chrome">Chrome</option>
+                    <option value="edge">Edge</option>
+                    <option value="brave">Brave</option>
+                    <option value="firefox">Firefox</option>
+                    <option value="opera">Opera</option>
+                    <option value="vivaldi">Vivaldi</option>
+                </select>
+                <select id="category-filter" class="form-select">
+                    <option value="all">All Categories</option>
+                    <option value="Development & Tech">Development & Tech</option>
+                    <option value="Search & Reference">Search & Reference</option>
+                    <option value="Social & Communication">Social & Communication</option>
+                    <option value="Media & Streaming">Media & Streaming</option>
+                    <option value="Shopping & Finance">Shopping & Finance</option>
+                    <option value="News & Articles">News & Articles</option>
+                    <option value="General Browsing">General Browsing</option>
+                </select>
+            </div>
+
+            <!-- Tab Pills -->
+            <div class="tab-pills">
+                <button class="pill active" data-filter="all">All History</button>
+                <button class="pill pill-danger" data-filter="deleted">🔴 Preserved from Deletion Only</button>
+                <button class="pill pill-success" data-filter="active">🟢 Active in Browser Only</button>
+            </div>
+        </section>
+
+        <!-- History Records Table -->
+        <section class="table-section">
+            <div class="table-header">
+                <span class="results-count" id="results-count">Loading history entries...</span>
+                <span class="auto-sync-status" id="auto-sync-status">🟢 Vault Connected</span>
+            </div>
+
+            <div class="table-container">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 130px;">Status</th>
+                            <th style="width: 100px;">Browser</th>
+                            <th style="width: 160px;">Domain</th>
+                            <th>Page Title & URL</th>
+                            <th style="width: 140px;">Category</th>
+                            <th style="width: 70px;">Visits</th>
+                            <th style="width: 170px;">Last Visited (UTC)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-tbody">
+                        <tr>
+                            <td colspan="7" class="text-center" style="padding: 40px;">Loading archive...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination-bar">
+                <button id="btn-prev" class="btn btn-secondary btn-sm" disabled>◀ Previous</button>
+                <span id="page-indicator">Page 1</span>
+                <button id="btn-next" class="btn btn-secondary btn-sm">Next ▶</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <p>HistVault v1.0.0 — Open Source Browser History Preservation System | Apache License 2.0</p>
+    </footer>
+
+    <script src="/app.js"></script>
+</body>
+</html>
