@@ -115,17 +115,32 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-### 1. Windows Native Installation & Uninstallation
+### 1. Windows Native Installation & Executable (.exe)
 
-HistVault provides a native Windows installation suite that integrates directly with the OS:
+HistVault integrates directly with Windows as a true **native executable (`HistVault.exe`)** with full OS shortcut and icon customization:
 
-#### Installing:
+#### Installing with Custom Icon:
 Double-click:
 👉 **`Install-HistVault.bat`**
-* Installs application to `%LOCALAPPDATA%\HistVault`.
-* Creates **Desktop Shortcut** (`HistVault.lnk`).
-* Adds to **Start Menu** (`Programs > HistVault`).
+
+During installation, you can select your preferred shortcut and executable icon:
+* `[1]` **Apple Blue Shield** (Security Vault)
+* `[2]` **Safari Compass** (Apple Web Navigation)
+* `[3]` **Dark Titanium Vault** (Safe Box)
+* `[4]` **Minimalist Clock** (Time & History Archive)
+* `[5]` **Stealth Privacy** (Incognito Mode)
+* `[6]` **Custom Icon** (Pick any `.ico` file from your PC via file browser!)
+
+The installer automatically:
+* Compiles **`HistVault.exe`** with your chosen icon embedded.
+* Installs application to `%LOCALAPPDATA%\HistVault\HistVault.exe`.
+* Creates a **Desktop Shortcut** with your custom icon.
+* Adds a **Start Menu** folder with `HistVault` and `Change Shortcut Icon`.
 * Registers into **Windows Settings > Apps > Installed apps** (and Control Panel).
+
+#### Changing Shortcut Icon Anytime:
+Want to change the icon later without reinstalling? Simply double-click:
+👉 **`Change-Icon.bat`** (or via Start Menu ➜ *Change Shortcut Icon*).
 
 #### Uninstalling (Zero-Residue History Purge):
 You can uninstall through any standard Windows method:
@@ -138,19 +153,15 @@ You can uninstall through any standard Windows method:
 
 ---
 
-### 2. Launch the Native Desktop Application (Apple Interface)
+### 2. Launch the Native Executable (HistVault.exe)
 
-HistVault runs as a **native standalone desktop app** with dedicated window controls, Apple Human Interface design, and zero external browser tabs required:
+You can launch HistVault directly as a native Windows executable:
 
 ```bash
-# Via CLI command:
-histvault desktop
+# Double-click the compiled native executable:
+HistVault.exe
 
-# Or via Python launcher:
-python run_desktop.py
-
-# Or on Windows, simply double-click:
-HistVault-Desktop.bat
+# Or via Desktop Shortcut created by the installer
 ```
 
 * 🖥️ **Native Window:** Embedded Edge WebView2 desktop container (1180x820 window with native close/minimize/maximize).
