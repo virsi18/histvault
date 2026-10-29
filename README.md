@@ -115,9 +115,32 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-### 1. Launch the Native Desktop Application (iOS Interface)
+### 1. Windows Native Installation & Uninstallation
 
-HistVault can run as a **native standalone desktop app** with dedicated window controls, Apple iOS design, and zero external browser tabs required:
+HistVault provides a native Windows installation suite that integrates directly with the OS:
+
+#### Installing:
+Double-click:
+👉 **`Install-HistVault.bat`**
+* Installs application to `%LOCALAPPDATA%\HistVault`.
+* Creates **Desktop Shortcut** (`HistVault.lnk`).
+* Adds to **Start Menu** (`Programs > HistVault`).
+* Registers into **Windows Settings > Apps > Installed apps** (and Control Panel).
+
+#### Uninstalling (Zero-Residue History Purge):
+You can uninstall through any standard Windows method:
+* **Windows Settings** ➜ **Apps** ➜ **Installed apps** ➜ **HistVault** ➜ **Uninstall**, or
+* **Start Menu** ➜ **HistVault** ➜ **Uninstall HistVault**, or
+* Double-click **`Uninstall-HistVault.bat`**.
+
+> **⚠️ Complete Privacy Purge Guarantee:**  
+> When uninstalled, HistVault terminates all background tasks, removes all registry entries and shortcuts, and **permanently purges the entire preserved history database (`~/.histvault/vault.db`)**, leaving zero traces on your computer.
+
+---
+
+### 2. Launch the Native Desktop Application (Apple Interface)
+
+HistVault runs as a **native standalone desktop app** with dedicated window controls, Apple Human Interface design, and zero external browser tabs required:
 
 ```bash
 # Via CLI command:
@@ -131,12 +154,22 @@ HistVault-Desktop.bat
 ```
 
 * 🖥️ **Native Window:** Embedded Edge WebView2 desktop container (1180x820 window with native close/minimize/maximize).
-* 🔍 **Instant Spotlight Search:** Instant history search across titles, URLs, and domains.
-* 🛡️ **Anti-Deletion Guarantee:** Clear filter to inspect items deleted from browser history.
+* 🔍 **Spotlight Search:** Instant history search across titles, URLs, and domains (`⌘K` / `Ctrl+K`).
+* 🛡️ **Anti-Deletion Guarantee:** Segmented tab filter to inspect items deleted from browser history.
 
 ---
 
-### 2. Launch in Web Server Mode (Alternative)
+### 3. Background Auto-Preservation Service
+
+HistVault can continuously monitor and archive history in the background without needing any open windows:
+
+* **Start background monitoring now:** Double-click `Start-Background-Service.bat`.
+* **Auto-run on Windows boot:** Double-click `Register-Windows-Startup.bat`.
+* **Stop background service:** Double-click `Stop-Background-Service.bat`.
+
+---
+
+### 4. Launch in Web Server Mode (Alternative)
 
 If you prefer accessing HistVault via standard web browser:
 
@@ -147,7 +180,7 @@ Then open: **`http://127.0.0.1:8765`**
 
 ---
 
-### 3. Command-Line Interface (CLI)
+### 5. Command-Line Interface (CLI)
 
 #### Synchronize All Browsers
 ```bash
