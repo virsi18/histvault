@@ -10,3 +10,4 @@ echo Any new browsing history is automatically preserved every 30 seconds.
 echo You do NOT need to keep any window open.
 echo.
 pause
+

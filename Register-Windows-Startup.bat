@@ -11,3 +11,4 @@ echo [SUCCESS] HistVault will now start automatically whenever your PC boots up.
 echo All browsing history will be continuously archived in the background.
 echo.
 pause
+
