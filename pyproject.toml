@@ -14,3 +14,4 @@ dependencies = []
 
 [project.scripts]
 histvault = "histvault.cli.main:main"
+
