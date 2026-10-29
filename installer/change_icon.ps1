@@ -1,5 +1,6 @@
 param (
-    [string]$Choice = ""
+    [string]$Choice = "",
+    [switch]$Silent = $false
 )
 
 $ErrorActionPreference = "SilentlyContinue"
@@ -17,8 +18,13 @@ Write-Host " [5] Stealth Privacy         (Incognito Mode)" -ForegroundColor Whit
 Write-Host " [6] Custom .ico File        (Browse and choose your own icon)" -ForegroundColor White
 Write-Host ""
 
-$baseDir = (Get-Item $PSScriptRoot).Parent.FullName
-$iconsDir = Join-Path $baseDir "assets\icons"
+$baseDir = $PSScriptRoot
+if (Test-Path (Join-Path $baseDir "assets\icons")) {
+    $iconsDir = Join-Path $baseDir "assets\icons"
+} else {
+    $baseDir = (Get-Item $PSScriptRoot).Parent.FullName
+    $iconsDir = Join-Path $baseDir "assets\icons"
+}
 
 if (-not $Choice) {
     $Choice = Read-Host "Enter your choice (1-6) [default: 1]"
@@ -54,6 +60,11 @@ switch ($Choice) {
 
 # 1. Recompile HistVault.exe with the chosen icon embedded
 Write-Host "Compiling HistVault.exe with selected icon..." -ForegroundColor Cyan
+
+# Stop running HistVault processes if any so files are not locked
+Get-Process -Name "HistVault" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+Start-Sleep -Milliseconds 400
+
 $csc = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
 $launcherCs = Join-Path $baseDir "assets\Launcher.cs"
 $outExe = Join-Path $baseDir "HistVault.exe"
@@ -85,6 +96,20 @@ if (Test-Path $installDir) {
         $s.IconLocation = "$selectedIcon, 0"
         $s.Save()
     }
+
+    # Refresh Windows Icon Cache so desktop updates instantly
+    try {
+        $refreshCode = @"
+using System;
+using System.Runtime.InteropServices;
+public class ShellRefresh {
+    [DllImport("shell32.dll")]
+    public static extern void SHChangeNotify(int wEventId, int uFlags, IntPtr dwItem1, IntPtr dwItem2);
+}
+"@
+        Add-Type -TypeDefinition $refreshCode -ErrorAction SilentlyContinue
+        [ShellRefresh]::SHChangeNotify(0x08000000, 0, [IntPtr]::Zero, [IntPtr]::Zero)
+    } catch {}
 }
 
 Write-Host ""
@@ -92,4 +117,6 @@ Write-Host "==========================================================" -Foregro
 Write-Host " [SUCCESS] Application & shortcut icon successfully updated!" -ForegroundColor Green
 Write-Host "==========================================================" -ForegroundColor Green
 Write-Host ""
-Read-Host "Press Enter to exit"
+if (-not $Silent) {
+    Read-Host "Press Enter to exit"
+}
