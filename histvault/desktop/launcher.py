@@ -117,3 +117,4 @@ def launch_desktop_app(db_path: Optional[Path] = None, port: Optional[int] = Non
             finally:
                 server.shutdown()
                 server.server_close()
+

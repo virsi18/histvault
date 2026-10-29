@@ -3,50 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HistVault — Safari History Archive</title>
+    <title>HistVault</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <div class="ios-app">
-        <!-- iOS Status Bar & Top Navigation -->
-        <header class="ios-navbar">
-            <div class="ios-navbar-content">
-                <div class="ios-nav-left">
-                    <div class="ios-app-icon">
-                        <span>🛡️</span>
+    <div class="apple-window">
+        <!-- macOS / iOS Window Header -->
+        <header class="app-header">
+            <div class="header-container">
+                <div class="header-branding">
+                    <div class="app-mark">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="m9 12 2 2 4-4"/>
+                        </svg>
                     </div>
-                    <div class="ios-nav-titles">
-                        <span class="ios-nav-subtitle">HISTVAULT VAULT</span>
-                        <h1 class="ios-nav-large-title">History</h1>
+                    <div class="header-titles">
+                        <h1 class="page-title">History</h1>
+                        <span class="meta-caption" id="meta-caption">Loading archive...</span>
                     </div>
                 </div>
-                <div class="ios-nav-right">
-                    <button id="btn-sync" class="ios-btn ios-btn-tinted" title="Sync History from Browsers">
-                        <span id="sync-icon">🔄</span>
-                        <span class="btn-text">Sync</span>
+
+                <div class="header-actions">
+                    <button id="btn-sync" class="action-btn" title="Sync now from installed browsers">
+                        <svg class="btn-icon" id="sync-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-1.19"/>
+                        </svg>
+                        <span>Sync</span>
                     </button>
-                    <div class="ios-dropdown">
-                        <button class="ios-btn ios-btn-tinted" id="btn-export-toggle" title="Export Archive">
-                            <span>📤</span>
-                            <span class="btn-text">Export</span>
+
+                    <div class="action-dropdown">
+                        <button id="btn-export-toggle" class="action-btn">
+                            <svg class="btn-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                                <polyline points="16 6 12 2 8 6"/>
+                                <line x1="12" y1="2" x2="12" y2="15"/>
+                            </svg>
+                            <span>Export</span>
                         </button>
-                        <div class="ios-menu" id="export-menu">
-                            <div class="ios-menu-header">Export Format</div>
-                            <a href="/api/export?format=html" target="_blank" class="ios-menu-item">
-                                <span>📄</span> Standalone HTML Report
+                        <div class="dropdown-popover" id="export-menu">
+                            <div class="popover-heading">Export Archive</div>
+                            <a href="/api/export?format=html" target="_blank" class="popover-item">
+                                <span>HTML Report (Standalone)</span>
                             </a>
-                            <a href="/api/export?format=csv" target="_blank" class="ios-menu-item">
-                                <span>📊</span> CSV Spreadsheet (Excel)
+                            <a href="/api/export?format=csv" target="_blank" class="popover-item">
+                                <span>CSV Spreadsheet</span>
                             </a>
-                            <a href="/api/export?format=json" target="_blank" class="ios-menu-item">
-                                <span>📦</span> Full JSON Archive
+                            <a href="/api/export?format=json" target="_blank" class="popover-item">
+                                <span>JSON Data Dump</span>
                             </a>
-                            <a href="/api/export?format=md" target="_blank" class="ios-menu-item">
-                                <span>📝</span> Markdown (Obsidian)
+                            <a href="/api/export?format=md" target="_blank" class="popover-item">
+                                <span>Markdown Notes</span>
                             </a>
-                            <div class="ios-menu-divider"></div>
-                            <a href="/api/export?format=csv&deleted_only=true" target="_blank" class="ios-menu-item text-danger">
-                                <span>🔴</span> Deleted Only (CSV)
+                            <div class="popover-divider"></div>
+                            <a href="/api/export?format=csv&deleted_only=true" target="_blank" class="popover-item item-danger">
+                                <span>Deleted History Only (CSV)</span>
                             </a>
                         </div>
                     </div>
@@ -54,156 +65,119 @@
             </div>
         </header>
 
-        <main class="ios-content">
-            <!-- iOS Spotlight Search Bar -->
-            <section class="ios-search-container">
-                <div class="ios-search-field">
-                    <span class="ios-search-icon">🔍</span>
-                    <input type="text" id="search-input" placeholder="Search History, URLs, or Domains..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                    <button id="search-clear-btn" class="ios-search-clear" style="display: none;">✕</button>
-                </div>
-            </section>
-
-            <!-- iOS Segmented Control -->
-            <section class="ios-segmented-control-wrap">
-                <div class="ios-segmented-control">
-                    <button class="ios-segment active" data-filter="all">All History</button>
-                    <button class="ios-segment segment-danger" data-filter="deleted">
-                        <span class="badge-dot dot-red"></span> Preserved Deleted
+        <!-- Main Body Container -->
+        <main class="app-body">
+            <!-- Search & Filter Bar -->
+            <div class="control-strip">
+                <!-- Apple Spotlight Search -->
+                <div class="search-box">
+                    <svg class="search-glyph" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input type="text" id="search-input" placeholder="Search title, URL, or domain..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <button id="search-clear-btn" class="search-clear" style="display: none;" title="Clear search">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
                     </button>
-                    <button class="ios-segment segment-success" data-filter="active">
-                        <span class="badge-dot dot-green"></span> Active
+                    <span class="search-shortcut">⌘K</span>
+                </div>
+
+                <!-- Apple Native Segmented Control -->
+                <div class="segmented-control">
+                    <button class="segment-btn active" data-filter="all">All</button>
+                    <button class="segment-btn segment-preserved" data-filter="deleted">
+                        <span class="status-indicator-dot dot-preserved"></span>
+                        Preserved
+                    </button>
+                    <button class="segment-btn segment-active" data-filter="active">
+                        <span class="status-indicator-dot dot-active"></span>
+                        Active
                     </button>
                 </div>
-            </section>
+            </div>
 
-            <!-- iOS Metrics Cards (Apple Health / Settings Card Style) -->
-            <section class="ios-metrics-row">
-                <div class="ios-card ios-metric-card" id="card-total">
-                    <div class="ios-metric-header">
-                        <span class="ios-card-icon bg-blue">📚</span>
-                        <span class="ios-metric-label">Total Vault Records</span>
-                    </div>
-                    <div class="ios-metric-value" id="stat-total">0</div>
-                    <div class="ios-metric-caption">Permanent history items</div>
+            <!-- Understated Metric Ribbon (No cheesy cards) -->
+            <div class="metric-ribbon">
+                <div class="ribbon-item">
+                    <span class="ribbon-val" id="stat-total">0</span>
+                    <span class="ribbon-lbl">Preserved</span>
                 </div>
-                <div class="ios-card ios-metric-card border-red-glow" id="card-deleted">
-                    <div class="ios-metric-header">
-                        <span class="ios-card-icon bg-red">🛡️</span>
-                        <span class="ios-metric-label">Deleted in Browser</span>
-                    </div>
-                    <div class="ios-metric-value text-red" id="stat-deleted">0</div>
-                    <div class="ios-metric-caption">Preserved from deletion</div>
+                <div class="ribbon-divider"></div>
+                <div class="ribbon-item">
+                    <span class="ribbon-val text-preserved" id="stat-deleted">0</span>
+                    <span class="ribbon-lbl">Deleted in Browser</span>
                 </div>
-                <div class="ios-card ios-metric-card" id="card-active">
-                    <div class="ios-metric-header">
-                        <span class="ios-card-icon bg-green">🟢</span>
-                        <span class="ios-metric-label">Active in Browser</span>
-                    </div>
-                    <div class="ios-metric-value text-green" id="stat-active">0</div>
-                    <div class="ios-metric-caption">Present in browser history</div>
+                <div class="ribbon-divider"></div>
+                <div class="ribbon-item">
+                    <span class="ribbon-val" id="stat-active">0</span>
+                    <span class="ribbon-lbl">Active in Browser</span>
                 </div>
-                <div class="ios-card ios-metric-card" id="card-domains">
-                    <div class="ios-metric-header">
-                        <span class="ios-card-icon bg-purple">🌐</span>
-                        <span class="ios-metric-label">Total Visits</span>
-                    </div>
-                    <div class="ios-metric-value text-purple" id="stat-visits">0</div>
-                    <div class="ios-metric-caption" id="stat-domains-sub">across 0 domains</div>
+                <div class="ribbon-divider"></div>
+                <div class="ribbon-item">
+                    <span class="ribbon-val" id="stat-visits">0</span>
+                    <span class="ribbon-lbl">Recorded Visits</span>
                 </div>
-            </section>
+            </div>
 
-            <!-- iOS Horizontal Filter Chips -->
-            <section class="ios-chips-scroll">
-                <div class="chips-label">Filters:</div>
-                <button class="ios-chip active" data-category="all">All Categories</button>
-                <button class="ios-chip" data-category="Development & Tech">💻 Development</button>
-                <button class="ios-chip" data-category="Search & Reference">🔍 Search & AI</button>
-                <button class="ios-chip" data-category="Social & Communication">💬 Social</button>
-                <button class="ios-chip" data-category="Media & Streaming">🎬 Media</button>
-                <button class="ios-chip" data-category="Shopping & Finance">💳 Shopping</button>
-                <button class="ios-chip" data-category="News & Articles">📰 News</button>
-                <button class="ios-chip" data-category="General Browsing">🌐 General</button>
-            </section>
-
-            <!-- Browser Selector Pills -->
-            <section class="ios-browser-bar">
-                <span class="browser-bar-label">Browser:</span>
-                <div class="browser-pills" id="browser-pills">
-                    <button class="ios-mini-pill active" data-browser="all">All Browsers</button>
-                    <button class="ios-mini-pill" data-browser="chrome">Chrome</button>
-                    <button class="ios-mini-pill" data-browser="edge">Edge</button>
-                    <button class="ios-mini-pill" data-browser="brave">Brave</button>
-                    <button class="ios-mini-pill" data-browser="firefox">Firefox</button>
-                    <button class="ios-mini-pill" data-browser="opera">Opera</button>
-                    <button class="ios-mini-pill" data-browser="vivaldi">Vivaldi</button>
-                </div>
-            </section>
-
-            <!-- iOS Inset Grouped History List -->
-            <section class="ios-history-section">
-                <div class="ios-section-header">
-                    <span id="results-count" class="ios-section-title">Loading history...</span>
-                    <span id="vault-status" class="ios-status-indicator">
-                        <span class="pulse-dot"></span> Vault Synced
-                    </span>
+            <!-- Filter Tags (Clean, Minimalist) -->
+            <div class="filter-row">
+                <div class="filter-chips" id="category-chips">
+                    <button class="chip active" data-category="all">All Topics</button>
+                    <button class="chip" data-category="Development & Tech">Development</button>
+                    <button class="chip" data-category="Search & Reference">Search & AI</button>
+                    <button class="chip" data-category="Social & Communication">Social</button>
+                    <button class="chip" data-category="Media & Streaming">Media</button>
+                    <button class="chip" data-category="Shopping & Finance">Finance</button>
+                    <button class="chip" data-category="News & Articles">News</button>
                 </div>
 
-                <div class="ios-card ios-grouped-card">
-                    <ul class="ios-list-view" id="history-list">
-                        <li class="ios-list-empty">
-                            <div class="spinner"></div>
-                            <span>Accessing local history vault...</span>
+                <div class="browser-selector">
+                    <select id="browser-dropdown" class="browser-select">
+                        <option value="all">All Browsers</option>
+                        <option value="chrome">Chrome</option>
+                        <option value="edge">Edge</option>
+                        <option value="brave">Brave</option>
+                        <option value="firefox">Firefox</option>
+                        <option value="opera">Opera</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- History List (Apple Inset Grouped Table) -->
+            <div class="list-container">
+                <div class="list-section-header">
+                    <span class="section-label" id="results-count">Loading records...</span>
+                    <span class="section-badge" id="vault-status-indicator">Vault Operational</span>
+                </div>
+
+                <div class="inset-card">
+                    <ul class="history-list" id="history-list">
+                        <li class="list-placeholder">
+                            <div class="native-spinner"></div>
+                            <span>Scanning persistent vault...</span>
                         </li>
                     </ul>
                 </div>
 
-                <!-- iOS Pagination Stepper -->
-                <div class="ios-pagination">
-                    <button id="btn-prev" class="ios-stepper-btn" disabled>
-                        <span>‹</span>
+                <!-- Minimal Apple Stepper Pagination -->
+                <div class="stepper-footer">
+                    <button id="btn-prev" class="stepper-arrow" disabled title="Previous page">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"/>
+                        </svg>
                     </button>
-                    <span id="page-indicator" class="ios-page-label">Page 1</span>
-                    <button id="btn-next" class="ios-stepper-btn">
-                        <span>›</span>
+                    <span class="stepper-text" id="page-indicator">1 of 1</span>
+                    <button id="btn-next" class="stepper-arrow" title="Next page">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
                     </button>
                 </div>
-            </section>
+            </div>
         </main>
-
-        <!-- iOS Bottom Tab Bar / Footer -->
-        <footer class="ios-tab-bar">
-            <div class="ios-tab-item active" id="tab-history-trigger">
-                <span class="tab-icon">🕒</span>
-                <span class="tab-label">History</span>
-            </div>
-            <div class="ios-tab-item" id="tab-deleted-trigger">
-                <span class="tab-icon">🔴</span>
-                <span class="tab-label">Preserved</span>
-            </div>
-            <div class="ios-tab-item" id="tab-sync-trigger">
-                <span class="tab-icon">⚡</span>
-                <span class="tab-label">Sync</span>
-            </div>
-            <div class="ios-tab-item" id="tab-top-domains-trigger">
-                <span class="tab-icon">📈</span>
-                <span class="tab-label">Top Sites</span>
-            </div>
-        </footer>
-    </div>
-
-    <!-- iOS Modal: Top Domains Sheet -->
-    <div class="ios-sheet-backdrop" id="sheet-backdrop" style="display: none;">
-        <div class="ios-sheet">
-            <div class="ios-sheet-grabber"></div>
-            <div class="ios-sheet-header">
-                <h2>Top Visited Domains</h2>
-                <button class="ios-btn-close" id="btn-close-sheet">Done</button>
-            </div>
-            <div class="ios-sheet-body" id="top-domains-content">
-                Loading domain stats...
-            </div>
-        </div>
     </div>
 
     <script src="/app.js"></script>
